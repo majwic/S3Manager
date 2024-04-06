@@ -1,3 +1,4 @@
+import boto3
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QLabel, QWidget, QVBoxLayout, QHBoxLayout, QScrollArea, QLineEdit, QPushButton
 
@@ -32,7 +33,7 @@ class S3FileManagerWidget(QWidget):
         self.setLayout(layout)
 
         # Set widget background color
-        self.setStyleSheet("background-color: black;")
+        #self.setStyleSheet("background-color: black;")
 
     def setup_upload_layout(self):
         upload_layout = QHBoxLayout()
@@ -93,3 +94,34 @@ class S3FileManagerWidget(QWidget):
         download_layout.addWidget(self.download_button)
 
         return download_layout
+    
+    def populate_file_buttons(self, bucket:str):
+        # Create an S3 client
+        s3 = boto3.client('s3')
+        file_names = []
+        self.file_buttons = []
+        self.clear_file_buttons_layout()
+
+        # Use the paginator to retrieve a list of all objects in the bucket
+        paginator = s3.get_paginator('list_objects_v2')
+        operation_parameters = {'Bucket': bucket}
+
+        # Iterate over each page of the bucket's objects
+        for page in paginator.paginate(**operation_parameters):
+            if 'Contents' in page:
+                # Get each object name
+                for obj in page['Contents']:
+                    file_names.append(obj['Key'])
+
+        # Create button for each file and add to layout
+        for file in file_names:
+            button = QPushButton(file)
+            self.file_buttons.append(button)
+            self.file_buttons_layout.addWidget(button)
+
+    def clear_file_buttons_layout(self):
+        while self.file_buttons_layout.count():
+            item = self.file_buttons_layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()

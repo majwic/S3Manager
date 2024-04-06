@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
         s3_bucket_manager_widget = S3BucketManagerWidget()
         s3_file_manager_widget = S3FileManagerWidget()
 
-        controller.connect_handlers(s3_bucket_manager_widget)
+        controller.connect_handlers(s3_bucket_manager_widget, s3_file_manager_widget)
 
         main_layout.addWidget(s3_bucket_manager_widget)
         main_layout.addWidget(s3_file_manager_widget)
@@ -37,6 +37,6 @@ class MainWindow(QMainWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
-    apply_stylesheet(app, theme='dark_pink.xml')
+    #apply_stylesheet(app, theme='dark_pink.xml')
     window.show()
     sys.exit(app.exec_())

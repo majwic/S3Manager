@@ -32,7 +32,7 @@ class S3BucketManagerWidget(QWidget):
         self.setLayout(layout)
 
         # Set widget background color
-        self.setStyleSheet("background-color: black;")
+        #self.setStyleSheet("background-color: black;")
 
     def setup_bucket_creation_layout(self):
         create_bucket_layout = QHBoxLayout()
