@@ -165,7 +165,10 @@ def decrypt_file(encrypted_file_path, password):
     key = generate_fernet_key(password)
     cipher_suite = Fernet(key)
 
-    decrypted_data = cipher_suite.decrypt(encrypted_data)
+    try:
+        decrypted_data = cipher_suite.decrypt(encrypted_data)
+    except Exception:
+        return
 
     # Write the decrypted data back to the original file path
     with open(encrypted_file_path, 'wb') as f:

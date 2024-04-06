@@ -32,9 +32,6 @@ class S3FileManagerWidget(QWidget):
         # Set main layout
         self.setLayout(layout)
 
-        # Set widget background color
-        #self.setStyleSheet("background-color: black;")
-
     def setup_upload_layout(self):
         upload_layout = QHBoxLayout()
 
