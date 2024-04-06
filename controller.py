@@ -1,9 +1,7 @@
-import base64
 import boto3
-import hashlib
 import os
+from encryption_utils import *
 from botocore.exceptions import ClientError
-from cryptography.fernet import Fernet
 from functools import partial
 from Widgets.S3BucketManager import S3BucketManagerWidget
 from Widgets.S3FileManager import S3FileManagerWidget
@@ -143,40 +141,3 @@ def download_button_clicked(file_manager_widget:S3FileManagerWidget):
         s3.download_fileobj(file_manager_widget.selected_bucket.text(), download_file_name, f)
 
     decrypt_file(file_path, download_password)
-
-def encrypt_file(file_path, password, saved_path):
-    with open(file_path, 'rb') as f:
-        data = f.read()
-
-    key = generate_fernet_key(password)
-    cipher_suite = Fernet(key)
-
-    encrypted_data = cipher_suite.encrypt(data)
-
-    with open(saved_path, 'wb') as f:
-        f.write(encrypted_data)
-
-    return saved_path
-
-def decrypt_file(encrypted_file_path, password):
-    with open(encrypted_file_path, 'rb') as f:
-        encrypted_data = f.read()
-
-    key = generate_fernet_key(password)
-    cipher_suite = Fernet(key)
-
-    try:
-        decrypted_data = cipher_suite.decrypt(encrypted_data)
-    except Exception:
-        return
-
-    # Write the decrypted data back to the original file path
-    with open(encrypted_file_path, 'wb') as f:
-        f.write(decrypted_data)
-
-def generate_fernet_key(password):
-    # Use a hashing algorithm (e.g., SHA-256) to generate a fixed-size key
-    hashed_password = hashlib.sha256(password.encode()).digest()
-    fernet_key = hashed_password[:32]
-    encoded_key = base64.urlsafe_b64encode(fernet_key)
-    return encoded_key
