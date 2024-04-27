@@ -2,9 +2,7 @@ import sys
 import controller as controller
 from Widgets.S3FileManager import S3FileManagerWidget
 from Widgets.S3BucketManager import S3BucketManagerWidget
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QMainWindow
-from qt_material import apply_stylesheet # type: ignore
 
 class MainWindow(QMainWindow):
     def __init__(self):

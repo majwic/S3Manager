@@ -9,6 +9,7 @@ This S3 Utility App utilizes the boto3 library to interact with Amazon S3 servic
 - Python installed on your machine
 - Install boto3 library
 - Install cryptography library
+- Install PyQt5 library
 ### Configuration
 Before running the app, you need to set up AWS credentials on your system. This can be done by creating the follwing file at ~/.aws/credentials
 
